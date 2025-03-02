@@ -1,4 +1,4 @@
-Okay, let's craft a detailed Technical Design Specification (TDS) for a "Deep Research" tool, building upon the research paper's findings. This TDS focuses on a Python Gradio-based web UI, offering users a choice between OpenAI-compatible and Google Gemini 2.0 APIs.
+Use the design document below to create a Python based "Deep Research" tool with a Python Gradio-based web UI, offering users a choice between OpenAI-compatible and Google Gemini 2.0 APIs.
 
 **Technical Design Specification: Deep Research Tool**
 

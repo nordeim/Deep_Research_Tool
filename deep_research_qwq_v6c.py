@@ -267,6 +267,54 @@ def generate_content_summary(content_items, query, llm_choice):
         return query_openai(prompt, temperature=0.3)
     return query_gemini(prompt, temperature=0.3)
 
+def generate_follow_up_questions(content_items, base_query, llm_choice):
+    """Generates follow-up questions based on the research findings."""
+    if not content_items:
+        return "Unable to generate follow-up questions due to lack of content."
+    
+    # Prepare the content for analysis  # <-- Fixed indentation (4 spaces)
+    combined_content = ""
+    for i, item in enumerate(content_items[:3]):  # Focus on top 3 results
+        combined_content += f"\n\n--- Content from {item['url']} ---\n{item['content'][:5000]}"
+    
+    prompt = f"""
+    Based on the following research content about "{base_query}":
+    
+    {combined_content}
+    
+    Generate 3-5 insightful follow-up questions that would:
+    1. Address gaps in the current information
+    2. Explore important aspects not covered in the existing content
+    3. Help deepen understanding of contradictions or complex aspects
+    4. Explore practical implications or applications
+    5. Consider alternative perspectives or approaches
+    
+    Return ONLY the numbered list of questions, one per line, without any additional text.
+    """
+    
+    if llm_choice == "openai":
+        response = query_openai(prompt, temperature=0.7)
+    else:
+        response = query_gemini(prompt, temperature=0.7)
+    
+    # Clean up the response
+    if response.startswith("Error") or "Failed to get response" in response:
+        return response
+        
+    questions = []
+    lines = response.split("\n")
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue 
+            
+        # Remove numbering and any extra characters
+        cleaned_line = re.sub(r'^\d+[\.\)]\s*', '', line).strip()
+        if cleaned_line and cleaned_line not in questions:
+            questions.append(cleaned_line)
+    
+    return "\n".join([f"{i+1}. {q}" for i, q in enumerate(questions)])
+    
 def generate_citations(sources):
     """Generates APA-formatted references"""
     citations = []

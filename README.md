@@ -3,8 +3,7 @@ To use this tool:
 
 1. Set OPENAI_API_KEY and/or GEMINI_API_KEY in .env file
 2. Install dependencies: pip install gradio openai google-generativeai beautifulsoup4
-3. Run the script and access the web interface
-- python3 deep_research_qwq_v6.2.py
+3. Run the script and access the web interface: python3 deep_research_qwq_v6.2.py
 ```
 https://chat.qwenlm.ai/s/f6baf391-a2a0-49fb-ab6c-80a648fae821
 ![image](https://github.com/user-attachments/assets/08b335c2-152c-4583-b4f3-6b94c57ed209)
